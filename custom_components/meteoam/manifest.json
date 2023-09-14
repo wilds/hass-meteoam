@@ -1,0 +1,12 @@
+{
+  "domain": "meteoam",
+  "name": "Meteo Aereonautica Militare (MeteoAM)",
+  "codeowners": ["@wilds"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/wilds/hass-meteoam",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/wilds/hass-meteoam/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}
