@@ -31,7 +31,7 @@ from .const import (
 
 # Dedicated Home Assistant endpoint - do not change!
 URL = "https://api.meteoam.it/deda-meteograms/api/GetMeteogram/preset1/{lat},{lon}"
-#URL = "https://api.meteoam.it/deda-meteograms/meteograms?request=GetMeteogram&layers=preset1&latlon={lat},{lon}"
+# URL = "https://api.meteoam.it/deda-meteograms/meteograms?request=GetMeteogram&layers=preset1&latlon={lat},{lon}"
 
 PLATFORMS = [Platform.WEATHER]
 
@@ -40,7 +40,7 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """Set up MeteoAM as config entry."""
-    # Don't setup if tracking home location and latitude or longitude isn't set.
+    # Don"t setup if tracking home location and latitude or longitude isn"t set.
     # Also, filters out our onboarding default location.
     if config_entry.data.get(CONF_TRACK_HOME, False) and (
         (not hass.config.latitude and not hass.config.longitude)
@@ -167,15 +167,18 @@ class MeteoAMWeatherData:
 
     async def fetch_data(self) -> Self:
         """Fetch data from API - (current weather and forecast)."""
-        _LOGGER.warning(URL.format(
-                    lat=self._coordinates["lat"],
-                    lon=self._coordinates["lon"],
-                ))
+        _LOGGER.debug(
+            URL.format(
+                lat=self._coordinates["lat"],
+                lon=self._coordinates["lon"],
+            )
+        )
         resp = await self._weather_data.get(
             URL.format(
-                    lat=self._coordinates["lat"],
-                    lon=self._coordinates["lon"],
-                ), timeout=60
+                lat=self._coordinates["lat"],
+                lon=self._coordinates["lon"],
+            ),
+            timeout=60,
         )
         if not resp or resp.status != 200:
             raise CannotConnect()
@@ -183,38 +186,36 @@ class MeteoAMWeatherData:
         try:
             data = await resp.json()
             self.daily_forecast = []
-            for tidx, t in enumerate(data['extrainfo']['stats']):
-                dt = parser().parse(t['localDate'])
+            for tidx, t in enumerate(data["extrainfo"]["stats"]):
+                dt = parser().parse(t["localDate"])
                 element = {
-                    'localDateTime': dt,
-                    '2t': t['maxCelsius'],
-                    '2t_min': t['minCelsius'],
-                    '2tf': t['maxFahrenheit'],
-                    '2tf_min': t['minFahrenheit'],
-                    'icon': t['icon']
+                    "localDateTime": dt,
+                    "2t": t["maxCelsius"],
+                    "2t_min": t["minCelsius"],
+                    "2tf": t["maxFahrenheit"],
+                    "2tf_min": t["minFahrenheit"],
+                    "icon": t["icon"]
                 }
                 self.daily_forecast.append(element)
 
             hourly_forecast = []
-            timeseries_data = data['timeseries']
-            paramlist_data = data['paramlist']
+            timeseries_data = data["timeseries"]
+            paramlist_data = data["paramlist"]
             for tidx, t in enumerate(timeseries_data):
                 dt = dt_util.as_local(parser().parse(t).replace(tzinfo=None))
                 now = dt_util.as_local(dt_util.utcnow())
-                element = {
-                    'localDateTime': dt.isoformat()
-                }
+                element = {"localDateTime": dt.isoformat()}
                 for pidx, p in enumerate(paramlist_data):
-                    element[p] = data['datasets']['0'][str(pidx)][str(tidx)]
+                    element[p] = data["datasets"]["0"][str(pidx)][str(tidx)]
                 if dt >= now:
                     hourly_forecast.append(element)
                 if dt <= now:
                     self.current_weather_data = element
             self.hourly_forecast = hourly_forecast
 
-            #_LOGGER.warning(self.current_weather_data)
-            #_LOGGER.warning(self.daily_forecast)
-            #_LOGGER.warning(self.hourly_forecast)
+            # _LOGGER.warning(self.current_weather_data)
+            # _LOGGER.warning(self.daily_forecast)
+            # _LOGGER.warning(self.hourly_forecast)
 
         except Exception as exc:
             _LOGGER.error(exc)
