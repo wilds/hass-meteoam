@@ -1,14 +1,14 @@
 """The met component."""
 from __future__ import annotations
 
-from collections.abc import Callable
-from datetime import datetime, timedelta
-from dateutil.parser import parser
 import logging
+from collections.abc import Callable
+from datetime import timedelta
 from random import randrange
 from types import MappingProxyType
 from typing import Any, Self
 
+from dateutil.parser import parser
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_LATITUDE,
@@ -19,7 +19,10 @@ from homeassistant.const import (
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed
+)
 from homeassistant.util import dt as dt_util
 
 from .const import (
@@ -194,7 +197,7 @@ class MeteoAMWeatherData:
                     "2t_min": t["minCelsius"],
                     "2tf": t["maxFahrenheit"],
                     "2tf_min": t["minFahrenheit"],
-                    "icon": t["icon"]
+                    "icon": t["icon"],
                 }
                 self.daily_forecast.append(element)
 
