@@ -199,18 +199,19 @@ class MeteoAMWeatherData:
             timeseries_data = data['timeseries']
             paramlist_data = data['paramlist']
             for tidx, t in enumerate(timeseries_data):
-                dt = parser().parse(t)
+                dt = dt_util.as_local(parser().parse(t).replace(tzinfo=None))
+                now = dt_util.as_local(dt_util.utcnow())
                 element = {
                     'localDateTime': dt.isoformat()
                 }
                 for pidx, p in enumerate(paramlist_data):
                     element[p] = data['datasets']['0'][str(pidx)][str(tidx)]
-                if dt.replace(tzinfo=None) >= datetime.now():
+                if dt >= now:
                     hourly_forecast.append(element)
-                if dt.replace(tzinfo=None) <= datetime.now():
+                if dt <= now:
                     self.current_weather_data = element
             self.hourly_forecast = hourly_forecast
-            
+
             #_LOGGER.warning(self.current_weather_data)
             #_LOGGER.warning(self.daily_forecast)
             #_LOGGER.warning(self.hourly_forecast)
