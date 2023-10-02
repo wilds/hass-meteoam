@@ -30,8 +30,8 @@ from homeassistant.components.weather import (
     ATTR_WEATHER_WIND_BEARING,
     ATTR_WEATHER_WIND_GUST_SPEED,
     ATTR_WEATHER_WIND_SPEED,
-    DOMAIN as WEATHER_DOMAIN,
 )
+from homeassistant.components.weather import DOMAIN as WEATHER_DOMAIN
 
 DOMAIN = "meteoam"
 
