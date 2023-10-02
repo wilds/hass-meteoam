@@ -3,23 +3,12 @@ from __future__ import annotations
 
 from typing import Any
 
+import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-
 from homeassistant import config_entries
-from homeassistant.const import (
-    CONF_LATITUDE,
-    CONF_LONGITUDE,
-    CONF_NAME,
-    UnitOfLength,
-)
+from homeassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
-import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.selector import (
-    NumberSelector,
-    NumberSelectorConfig,
-    NumberSelectorMode,
-)
 
 from .const import (
     CONF_TRACK_HOME,
@@ -54,16 +43,21 @@ def _get_data_schema(
             {
                 vol.Required(CONF_NAME, default=HOME_LOCATION_NAME): str,
                 vol.Required(CONF_LATITUDE, default=hass.config.latitude): cv.latitude,
-                vol.Required(CONF_LONGITUDE, default=hass.config.longitude): cv.longitude,
+                vol.Required(
+                    CONF_LONGITUDE, default=hass.config.longitude
+                ): cv.longitude,
             }
         )
     # Not tracking home, default values come from config entry
     return vol.Schema(
         {
             vol.Required(CONF_NAME, default=config_entry.data.get(CONF_NAME)): str,
-            vol.Required(CONF_LATITUDE, default=config_entry.data.get(CONF_LATITUDE)): cv.latitude,
-            vol.Required(CONF_LONGITUDE, default=config_entry.data.get(CONF_LONGITUDE)): cv.longitude,
-
+            vol.Required(
+                CONF_LATITUDE, default=config_entry.data.get(CONF_LATITUDE)
+            ): cv.latitude,
+            vol.Required(
+                CONF_LONGITUDE, default=config_entry.data.get(CONF_LONGITUDE)
+            ): cv.longitude,
         }
     )
 

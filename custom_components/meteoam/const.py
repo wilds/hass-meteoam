@@ -30,8 +30,8 @@ from homeassistant.components.weather import (
     ATTR_WEATHER_WIND_BEARING,
     ATTR_WEATHER_WIND_GUST_SPEED,
     ATTR_WEATHER_WIND_SPEED,
-    DOMAIN as WEATHER_DOMAIN,
 )
+from homeassistant.components.weather import DOMAIN as WEATHER_DOMAIN
 
 DOMAIN = "meteoam"
 
@@ -46,7 +46,7 @@ ENTITY_ID_SENSOR_FORMAT_HOME = f"{WEATHER_DOMAIN}.meteoam_{HOME_LOCATION_NAME}"
 
 CONDITIONS_MAP = {
     ATTR_CONDITION_SUNNY: {"01", "02"},
-    ATTR_CONDITION_PARTLYCLOUDY: { "04", "34", "35"},
+    ATTR_CONDITION_PARTLYCLOUDY: {"04", "34", "35"},
     ATTR_CONDITION_CLEAR_NIGHT: {"31"},
     ATTR_CONDITION_CLOUDY: {"05", "06", "07"},
     ATTR_CONDITION_FOG: {"03", "13", "14", "32"},
@@ -55,9 +55,9 @@ CONDITIONS_MAP = {
     ATTR_CONDITION_LIGHTNING_RAINY: {"10"},
     ATTR_CONDITION_SNOWY_RAINY: {"11", "12"},
     ATTR_CONDITION_SNOWY: {"16"},
-    #"17"   #storm
-    #"18"   
-    #"19"   #sand storm
+    # "17"   #storm
+    # "18"
+    # "19"   #sand storm
 }
 
 FORECAST_MAP = {

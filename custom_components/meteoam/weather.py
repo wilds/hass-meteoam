@@ -6,7 +6,6 @@ from typing import Any
 
 from homeassistant.components.weather import (
     ATTR_FORECAST_CONDITION,
-    ATTR_FORECAST_TIME,
     ATTR_WEATHER_CLOUD_COVERAGE,
     ATTR_WEATHER_DEW_POINT,
     ATTR_WEATHER_HUMIDITY,
@@ -15,7 +14,9 @@ from homeassistant.components.weather import (
     ATTR_WEATHER_WIND_BEARING,
     ATTR_WEATHER_WIND_GUST_SPEED,
     ATTR_WEATHER_WIND_SPEED,
-    DOMAIN as WEATHER_DOMAIN,
+)
+from homeassistant.components.weather import DOMAIN as WEATHER_DOMAIN
+from homeassistant.components.weather import (
     Forecast,
     SingleCoordinatorWeatherEntity,
     WeatherEntityFeature,
